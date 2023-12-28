@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-image: url(./crard/back_Image\ Upscaler.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            width: 248px;
+            height: 360px;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+            display: inline-block;
+            z-index: 1;
+            transition: transform 1s ease-in-out;
+            /* 添加过渡效果 */
+            transform-style: preserve-3d;
+        }
+
+        .card-front {
+            width: 248px;
+            height: 360px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: absolute;
+            backface-visibility: hidden;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            background: white;
+            color: red;
+            border-radius: 10%;
+            word-break: break-all;
+            font-family: '標楷體';
+        }
+
+        .card-back {
+            width: 248px;
+            height: 360px;
+            background-image: url(./crard/aGray_back.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: absolute;
+            transform: rotateY(180deg);
+            backface-visibility: hidden;
+        }
+
+        /* .card-close {
+            transform: rotateY(180deg);
+            z-index: 2;
+        } */
+        .card-close {
+            transform: rotateY(180deg) !important;
+            z-index: 2;
+        }
+
+        .rotate-card .card {
+            transform: rotateY(0deg);
+            transition: transform 1s ease-in-out;
+            z-index: 2;
+            /* Ensure selected cards are on top */
+        }
+
+
+        #game {
+            position: absolute;
+            top: 60%;
+            left: 85%;
+            z-index: 1;
+            cursor: pointer;
+            width: 248px;
+            height: 360px;
+        }
+
+        /* .card:hover {
+            scroll-padding-top: 20px;
+        } */
+
+        #select {
+            position: absolute;
+            top: 50%;
+            left: 41.2%;
+            width: 500px;
+            /* Adjust the width to fit the cards */
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 3;
+            cursor: url(./crard/bbc.png)10 10, auto;
+        }
+
+        #select .card .rotate-card {
+            transform: rotateY(0deg);
+            transition: transform 1s ease-in-out;
+        }
+
+        #select .card {
+            position: relative;
+            z-index: 1;
+            transform: rotateY(0deg);
+
+            /* transform-style: preserve-3d; */
+        }
+
+        #select .card:nth-child(1) {
+            left: -140px;
+        }
+
+        #select .card:nth-child(2) {
+            right: -140px;
+        }
+
+        #garbage {
+            display: flex;
+            justify-content: end;
+            align-items: start;
+            filter: hue-rotate(170deg);
+        }
+
+        #Quu {
+            color: black;
+            position: absolute;
+            width: 85%;
+            height: 20%;
+            background-image: url(./crard/baaa.png);
+            background-size: 80% 100%;
+            object-fit: contain;
+            margin-top: 20px;
+            margin-left: 50px;
+            background-repeat: no-repeat;
+            /* color: black; */
+            font-weight: bolder;
+            font-size: 2rem;
+            padding-top: 20px;
+            padding-left: 50px;
+            font-family: "微軟正黑體";
+            left: 0;
+            top: 0;
+            /* text-shadow: 0.1em 0.1em 0.1em #535353; */
+            color: white;
+            text-shadow: black 0.1em 0.1em 0.2em
+        }
+
+        #mark {
+            color: black;
+            position: absolute;
+            width: 5%;
+            height: 37%;
+            background: rgba(231, 145, 14, 0.548);
+            background-size: 80% 100%;
+            object-fit: contain;
+            margin-top: 20px;
+            margin-left: 50px;
+            background-repeat: no-repeat;
+            /* color: black; */
+            font-weight: bolder;
+            font-size: 3.5rem;
+            padding-top: 20px;
+            padding-left: 50px;
+            font-family: "微軟正黑體";
+            right: 15%;
+            bottom: 10px;
+            /* text-shadow: 0.1em 0.1em 0.1em #535353; */
+            color: white;
+            text-shadow: black 0.1em 0.1em 0.2em
+        }
+    </style>
+</head>
+
+
+</style>
+</head>
+
+<body>
+
+    <div id="Quu">
+        What do you wanna eat? 一天心情的好壞取決於好吃的食物。
+        <br>
+        點選右下角的卡片，顯示的文字想一下兩張上的文字哪個比較想吃吧!
+        <br>
+        不想吃的卡片丟掉!，再選一張吧，為每天可攝取的熱量好好挑選!
+        <!-- 誰是你的好朋友???? -->
+    </div>
+    <div id="garbage"></div>
+
+    <div id="select"></div>
+    <div id="game"></div>
+    <div id="mark">請
+        <br>抽
+        <br>牌
+        <br>→
+    </div>
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'
+        integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=='
+        crossorigin='anonymous'></script>
+    <script>
+        // for (let i = 0; i < 8; i++) {
+        //     const randomA = Math.round(Math.random() * 9);
+        //     const randomB = Math.round(Math.random() * 9);
+        // }
+        // for (let i = 0; i < 8; i++) {
+        //     $('#game').append(`<div class="card card-close z-index:${i - 1}">
+        // <div class="card-front"></div>
+        // <div class="card-back"></div>
+        // </div>`)
+        // }
+        // Set the content for each card
+        $(document).ready(function () {
+            const food = [{
+                name: '速食店',
+                熱量: '100kcal'
+            },
+            {
+                name: '義大利麵/焗飯',
+                熱量: '100kcal'
+            },
+            {
+                name: '燒臘',
+                熱量: '100kcal'
+            },
+            {
+                name: '牛肉麵',
+                熱量: '100kcal'
+            },
+            {
+                name: '自助餐',
+                熱量: '100kcal'
+            },
+            {
+                name: '滷肉飯',
+                熱量: '100kcal'
+            },
+            {
+                name: '火鍋',
+                熱量: '100kcal'
+            },
+            {
+                name: '泰式料理',
+                熱量: '100kcal'
+            },
+            {
+                name: '韓式料理',
+                熱量: '100kcal'
+            },
+            {
+                name: '燒肉',
+                熱量: '100kcal'
+            },
+            {
+                name: '水/煎 餃類',
+                熱量: '100kcal'
+            },
+            {
+                name: '粥',
+                熱量: '100kcal'
+            },
+            {
+                name: '泡麵',
+                熱量: '100kcal'
+            },
+            {
+                name: '麵店',
+                熱量: '100kcal'
+            },
+            {
+                name: '熱炒',
+                熱量: '100kcal'
+            },
+            {
+                name: '媽媽煮的',
+                熱量: '100kcal'
+            },
+            ]
+            // const food = [
+            //     { name: '01' }, { name: '02' }, { name: '03' }, { name: '04' }, { name: '05' }, { name: '06' },
+            //     { name: '07' }, { name: '08' }, { name: '09' }, { name: '10' }, { name: '11' }, { name: '12' },
+            //     { name: '13' }, { name: '14' }, { name: '15' }, { name: '16' }, { name: '17' }, { name: '18' },
+            //     { name: '19' }, { name: '20' }, { name: '21' }, { name: '22' }, { name: '23' }, { name: '24' },
+            //     { name: '16' }, { name: '16' },
+            // ]
+
+
+            for (let i = 0; i < food.length; i++) {
+                $('#game').append(`
+                <div class="card card-close z-index:${i - 1}">
+                    <div class="card-front">${food[i].name}</div>
+                    <div class="card-back"></div>
+                </div>
+            `);
+            }
+
+            $('#game').on('click', '.card', function () {
+                const selectCardCount = $('#select .card').length;
+
+                if (selectCardCount >= 2) {
+                    return false;
+                }
+
+                if ($(this).hasClass('card-close') && !$(this).hasClass('card-ok')) {
+                    const selectedCard = $(this);
+                    selectedCard.addClass('card-close');
+                    selectedCard.addClass('card-ok');
+                    selectedCard.appendTo('#select');
+                    setTimeout(() => {
+                        selectedCard.removeClass('card-close');
+                    }, 500); // 将延迟时间改为100ms
+                }
+            });
+
+            // $('#game').on('click', '.card', function () {
+            //     const selectCardCount = $('#select .card').length;
+
+            //     if (selectCardCount >= 2) {
+            //         return false;
+            //     }
+
+            //     if ($(this).hasClass('card-close') && !$(this).hasClass('card-ok')) {
+            //         const selectedCard = $(this);
+            //         selectedCard.removeClass('card-close');
+            //         selectedCard.addClass('card-ok rotate-card');
+            //         selectedCard.appendTo('#select');
+            //         setTimeout(() => {
+            //             selectedCard.find('.card-back,.card-front').toggleClass('rotate-card');
+            //         }, 1000); // 将延迟时间改为100ms
+            //     }
+            // });
+
+            $('#select').on('click', '.card', function () {
+                if ($(this).hasClass('card-ok')) {
+                    const selectedCard = $(this);
+                    selectedCard.removeClass('card-ok');
+                    selectedCard.addClass('card-close');
+                    selectedCard.find('.card-front, .card-back').toggleClass('rotate-card');
+                    setTimeout(() => {
+                        selectedCard.appendTo('#garbage');
+                        if (($('#garbage').find('.card-back').length) === (food.length - 1)) {
+                            alert(`決定就吃${$('#select')[0].innerText}`);
+                            // alert(`沒錯就是${$('#select')[0].innerText}`);
+                        }
+                        // console.log()
+                    }, 500);
+                }
+            });
+
+
+            const gameCards = $('#game .card').toArray();
+            gameCards.sort(() => Math.random() - 0.5);
+            $('#game').html(gameCards);
+        });
+    </script>
+
+</body>
+
+</html>
